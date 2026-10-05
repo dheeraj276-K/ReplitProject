@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "SmartQueue"
+description = "A digital queue and token management platform for people who want to join service queues remotely, and administrators who manage services and live queues."
+version = "1.0.0"
+id = "artifacts/smartqueue"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20167
+
+[services.development]
+run = "pnpm --filter @workspace/smartqueue run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/smartqueue", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/smartqueue/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20167"
+BASE_PATH = "/"

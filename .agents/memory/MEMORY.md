@@ -1,0 +1,1 @@
+- [Supabase integration](supabase-integration.md) — keep browser access on the public anon key and put queue mutations behind identity-checking SQL RPCs.

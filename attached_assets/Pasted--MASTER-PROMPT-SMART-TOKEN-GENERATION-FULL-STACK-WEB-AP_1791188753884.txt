@@ -1,0 +1,1305 @@
+# MASTER PROMPT — SMART TOKEN GENERATION FULL-STACK WEB APPLICATION
+
+Act as a **senior full-stack software engineer, UI/UX designer, database architect, security engineer, and DevOps engineer**.
+
+Build a complete, production-ready full-stack web application called:
+
+# SmartQueue — Digital Token Generation & Queue Management System
+
+## 1. PROJECT PURPOSE
+
+Build a web application that allows users to generate a digital queue/token remotely instead of physically waiting in a long queue.
+
+The core idea:
+
+**User → Login/Register → Select Service → Enter Required Information → Generate Token → View Queue Status → Track Estimated Waiting Time**
+
+The application should reduce unnecessary physical waiting by allowing users to obtain a token before reaching the location.
+
+The application must be designed so that it can later be used by hospitals, clinics, government offices, college offices, restaurants, banks, service centers, and other organizations.
+
+---
+
+# 2. REQUIRED TECHNOLOGY STACK
+
+Use the following modern stack unless there is a strong technical reason to change it:
+
+### Frontend
+- React.js
+- TypeScript
+- Vite
+- Tailwind CSS
+- Responsive design
+- Modern component-based architecture
+
+### Backend
+Use either:
+- Node.js
+- Express.js
+- TypeScript
+
+OR, if the platform provides a better integrated backend architecture, use its recommended production-ready backend while maintaining clean API separation.
+
+### Database / Authentication
+- Supabase
+- Supabase PostgreSQL
+- Supabase Authentication
+
+### Deployment
+Make the project deployment-ready.
+
+### Version Control
+- Git
+- GitHub
+
+---
+
+# 3. IMPORTANT DEVELOPMENT RULE
+
+Do NOT create a simple demo or static prototype.
+
+Build a **real full-stack application** with:
+
+- Real authentication
+- Real database
+- Real API/backend logic
+- Real token generation
+- Real queue management
+- Real user profiles
+- Real validation
+- Proper error handling
+- Secure database access
+- Environment variables
+- GitHub-ready project structure
+
+Do not hardcode sensitive credentials.
+
+Use `.env` / environment variables for secrets.
+
+Create a `.env.example` file containing required environment variables without exposing real credentials.
+
+---
+
+# 4. USER ROLES
+
+Implement role-based access.
+
+## Role 1 — User
+
+Users should be able to:
+
+- Register
+- Login
+- Logout
+- Manage profile
+- Select a service
+- Enter required information
+- Generate a token
+- View current token
+- View queue position
+- View estimated waiting time
+- View token history
+- Cancel token if allowed
+- Receive status updates
+- View service information
+
+## Role 2 — Admin
+
+Admins should be able to:
+
+- Login
+- View dashboard
+- Create services
+- Edit services
+- Delete/deactivate services
+- View all users
+- View active tokens
+- View token history
+- Call the next token
+- Mark token as completed
+- Mark token as cancelled
+- Skip a token
+- View queue statistics
+- View daily token count
+- View average waiting time
+
+Design the architecture so additional roles can be added later.
+
+---
+
+# 5. AUTHENTICATION
+
+Use Supabase Authentication.
+
+Implement:
+
+### Registration
+
+Fields:
+
+- Full Name
+- Email
+- Phone Number
+- Password
+- Confirm Password
+
+Validation:
+
+- Valid email
+- Valid phone number
+- Password strength
+- Password confirmation
+- Required fields
+
+### Login
+
+Fields:
+
+- Email
+- Password
+
+Features:
+
+- Login
+- Logout
+- Remember authenticated session
+- Protected routes
+- Authentication state handling
+
+### Forgot Password
+
+Implement:
+
+- Forgot password
+- Password reset email
+- Reset password page
+
+### Protected Routes
+
+Users who are not authenticated must not be able to access protected pages.
+
+Admins must not be able to access admin functionality unless they have the appropriate role.
+
+---
+
+# 6. USER PROFILE
+
+Create a user profile system.
+
+Profile fields:
+
+- User ID
+- Full Name
+- Email
+- Phone Number
+- Date of Birth (optional)
+- Gender (optional)
+- Address (optional)
+- Created At
+- Updated At
+
+Allow users to:
+
+- View profile
+- Edit profile
+- Save changes
+
+Do not store unnecessary personal information.
+
+---
+
+# 7. SERVICE SYSTEM
+
+Create a services table.
+
+Example services:
+
+- General Consultation
+- Doctor Appointment
+- Document Verification
+- Student Services
+- Bill Payment
+- Customer Support
+
+Each service should contain:
+
+- Service ID
+- Service Name
+- Description
+- Department
+- Average Service Time
+- Maximum Daily Tokens
+- Current Queue Count
+- Status
+- Created At
+- Updated At
+
+Admin should be able to manage services.
+
+---
+
+# 8. TOKEN GENERATION
+
+This is the CORE FEATURE.
+
+When the user selects a service, allow them to generate a token.
+
+Example:
+
+Service:
+
+General Consultation
+
+Token:
+
+A025
+
+Queue Position:
+
+12
+
+Estimated Waiting Time:
+
+35 minutes
+
+The token number must be generated by the backend/database logic.
+
+DO NOT generate token numbers only on the frontend.
+
+The token generation system must prevent duplicate token numbers.
+
+---
+
+# 9. TOKEN FORMAT
+
+Use a configurable token format.
+
+Example:
+
+A001
+A002
+A003
+A004
+
+The prefix should depend on the selected service.
+
+For example:
+
+General Consultation → G001
+
+Billing → B001
+
+Customer Support → C001
+
+Make the token numbering configurable.
+
+---
+
+# 10. TOKEN GENERATION LOGIC
+
+Implement proper queue logic.
+
+When a user requests a token:
+
+1. Verify authentication.
+2. Verify the selected service exists.
+3. Verify the service is active.
+4. Check whether the user already has an active token for that service.
+5. Determine the next available token number.
+6. Create the token.
+7. Assign queue position.
+8. Calculate estimated waiting time.
+9. Return token information.
+
+Example response:
+
+{
+  "token": "G025",
+  "service": "General Consultation",
+  "queuePosition": 8,
+  "estimatedWaitTime": 24,
+  "status": "WAITING"
+}
+
+---
+
+# 11. PREVENT DUPLICATE TOKENS
+
+A user should not accidentally generate multiple active tokens for the same service.
+
+If the user already has an active token, show:
+
+"You already have an active token for this service."
+
+Provide:
+
+- View Token
+- Cancel Token
+
+Do not create another token.
+
+---
+
+# 12. TOKEN STATUS
+
+Implement these statuses:
+
+- WAITING
+- CALLED
+- SERVING
+- COMPLETED
+- CANCELLED
+- SKIPPED
+- EXPIRED
+
+The system should update status correctly.
+
+---
+
+# 13. QUEUE MANAGEMENT
+
+Create a real queue system.
+
+Example:
+
+Currently Serving:
+
+G018
+
+Waiting:
+
+G019
+G020
+G021
+G022
+G023
+
+When admin clicks:
+
+"Call Next"
+
+The next WAITING token should become:
+
+CALLED
+
+The previously serving token can become:
+
+COMPLETED
+
+or another appropriate status depending on the workflow.
+
+---
+
+# 14. QUEUE POSITION
+
+Calculate the user's current queue position dynamically.
+
+Example:
+
+Your Token:
+
+G025
+
+Currently Serving:
+
+G018
+
+People Ahead:
+
+6
+
+Queue Position:
+
+7
+
+The queue position should update when tokens are completed, cancelled, skipped, or called.
+
+Do not permanently store values that should be calculated dynamically unless there is a clear reason.
+
+---
+
+# 15. ESTIMATED WAITING TIME
+
+Calculate estimated waiting time based on:
+
+- Number of people ahead
+- Average service time
+
+Example:
+
+People Ahead = 5
+
+Average service time = 5 minutes
+
+Estimated wait = 25 minutes
+
+Display:
+
+"Estimated waiting time: 25 minutes"
+
+Make the calculation configurable by the admin.
+
+---
+
+# 16. MAIN USER DASHBOARD
+
+Create a beautiful dashboard.
+
+Dashboard should contain:
+
+### Welcome section
+
+"Welcome, [User Name]"
+
+### Current Token Card
+
+Example:
+
+YOUR TOKEN
+
+G025
+
+General Consultation
+
+Queue Position: 7
+
+Estimated Wait: 25 minutes
+
+Status: WAITING
+
+### Actions
+
+- Generate Token
+- View Token
+- Token History
+- Profile
+
+### Service Cards
+
+Display available services.
+
+Each service card should contain:
+
+- Service name
+- Description
+- Average waiting time
+- Current queue size
+- Generate Token button
+
+---
+
+# 17. TOKEN SCREEN
+
+Create a dedicated token page.
+
+Display the token prominently.
+
+Example:
+
+----------------------------
+
+YOUR DIGITAL TOKEN
+
+G025
+
+General Consultation
+
+Currently Serving: G018
+
+People Ahead: 6
+
+Estimated Wait: 25 minutes
+
+Status: WAITING
+
+----------------------------
+
+Buttons:
+
+- Refresh Status
+- Cancel Token
+- Back to Dashboard
+
+Use a clean visual design.
+
+---
+
+# 18. TOKEN HISTORY
+
+Create a token history page.
+
+Display:
+
+| Token | Service | Date | Time | Status |
+|------|---------|------|------|--------|
+
+Allow users to view previous tokens.
+
+Support:
+
+- Pagination
+- Filtering by status
+- Sorting by date
+
+---
+
+# 19. ADMIN DASHBOARD
+
+Create a professional admin dashboard.
+
+Show:
+
+### Statistics
+
+- Today's Tokens
+- Active Tokens
+- Completed Tokens
+- Cancelled Tokens
+- Average Waiting Time
+
+### Current Queue
+
+Display:
+
+Token | User | Service | Status | Created Time | Action
+
+Actions:
+
+- Call
+- Complete
+- Skip
+- Cancel
+
+### Service Management
+
+- Add Service
+- Edit Service
+- Activate/Deactivate Service
+
+---
+
+# 20. REAL-TIME QUEUE UPDATES
+
+Use Supabase real-time capabilities where appropriate.
+
+When a token status changes:
+
+The user's dashboard should update without requiring a full page refresh.
+
+For example:
+
+Admin calls G025.
+
+User G025 should see:
+
+"Your token has been called."
+
+Use real-time subscriptions carefully and unsubscribe when components are unmounted.
+
+---
+
+# 21. DATABASE DESIGN
+
+Create a proper relational PostgreSQL schema in Supabase.
+
+Suggested tables:
+
+### profiles
+
+- id
+- user_id
+- full_name
+- email
+- phone
+- role
+- created_at
+- updated_at
+
+### services
+
+- id
+- name
+- description
+- department
+- prefix
+- average_service_time
+- max_daily_tokens
+- is_active
+- created_at
+- updated_at
+
+### tokens
+
+- id
+- user_id
+- service_id
+- token_number
+- token_sequence
+- status
+- queue_position
+- estimated_wait_time
+- created_at
+- called_at
+- completed_at
+- cancelled_at
+- updated_at
+
+### token_counters
+
+Use this if necessary to safely generate sequential token numbers.
+
+Fields may include:
+
+- id
+- service_id
+- date
+- current_sequence
+
+Add appropriate:
+
+- Primary keys
+- Foreign keys
+- Unique constraints
+- Indexes
+- NOT NULL constraints
+- Timestamps
+
+---
+
+# 22. SUPABASE ROW LEVEL SECURITY
+
+Security is extremely important.
+
+Implement Supabase Row Level Security.
+
+Users should only be able to:
+
+- Read their own profile
+- Update their own profile
+- Read their own tokens
+- Create tokens for themselves according to business rules
+- Cancel their own eligible tokens
+
+Admins should have appropriate permissions to:
+
+- View users
+- View tokens
+- Manage services
+- Manage queue
+
+Do NOT disable RLS simply to make the application work.
+
+Create proper RLS policies.
+
+---
+
+# 23. DATABASE FUNCTIONS / TRANSACTIONS
+
+Token generation must be concurrency-safe.
+
+If two users request a token at exactly the same time, they must receive different token numbers.
+
+Use PostgreSQL functions, transactions, sequences, or another reliable atomic mechanism.
+
+Avoid:
+
+SELECT MAX(token_number) + 1
+
+as the only mechanism because it can create duplicate tokens under concurrent requests.
+
+---
+
+# 24. API STRUCTURE
+
+Create clean backend APIs.
+
+Example:
+
+POST /api/auth/profile
+
+GET /api/services
+
+POST /api/tokens
+
+GET /api/tokens/current
+
+GET /api/tokens/history
+
+PATCH /api/tokens/:id/cancel
+
+GET /api/queue/:serviceId
+
+POST /api/admin/tokens/:id/call
+
+POST /api/admin/tokens/:id/complete
+
+POST /api/admin/tokens/:id/skip
+
+GET /api/admin/dashboard
+
+Use proper:
+
+- HTTP methods
+- Status codes
+- Validation
+- Error handling
+- Authentication middleware
+- Authorization middleware
+
+---
+
+# 25. SECURITY
+
+Implement:
+
+- Supabase authentication
+- Protected routes
+- Role-based authorization
+- RLS
+- Input validation
+- API validation
+- Environment variables
+- No exposed secrets
+- Secure error messages
+- Rate limiting where appropriate
+- Protection against duplicate requests
+- Proper CORS configuration
+- Server-side validation
+
+Never expose:
+
+SUPABASE_SERVICE_ROLE_KEY
+
+to the frontend.
+
+The service role key must remain server-side only if it is required.
+
+---
+
+# 26. UI/UX DESIGN
+
+Create a modern SaaS-style interface.
+
+Design principles:
+
+- Clean
+- Minimal
+- Professional
+- Mobile responsive
+- Easy to understand
+- Accessible
+- Fast
+
+Use:
+
+- Cards
+- Buttons
+- Status badges
+- Tables
+- Modals
+- Toast notifications
+- Loading states
+- Skeleton loaders
+- Empty states
+- Error states
+
+Use responsive layouts for:
+
+- Desktop
+- Tablet
+- Mobile
+
+---
+
+# 27. LANDING PAGE
+
+Create a landing page.
+
+Hero:
+
+"Skip the Queue. Get Your Token Digitally."
+
+Subtitle:
+
+"Generate your queue token remotely and spend less time waiting."
+
+Buttons:
+
+- Get Started
+- Login
+
+Sections:
+
+### How It Works
+
+1. Create Account
+2. Select Service
+3. Generate Token
+4. Track Your Queue
+5. Arrive When Your Turn Is Near
+
+### Features
+
+- Digital Tokens
+- Real-Time Queue Tracking
+- Estimated Waiting Time
+- Token History
+- Secure Authentication
+
+---
+
+# 28. ERROR HANDLING
+
+Every API call must have proper error handling.
+
+Display user-friendly messages.
+
+Examples:
+
+"Unable to generate token. Please try again."
+
+"You already have an active token."
+
+"Service is currently unavailable."
+
+"Your session has expired. Please login again."
+
+Do not expose raw database errors to users.
+
+---
+
+# 29. LOADING STATES
+
+Implement loading states everywhere necessary.
+
+Examples:
+
+- Login loading
+- Registration loading
+- Token generation loading
+- Dashboard loading
+- Queue loading
+- Admin action loading
+
+Disable buttons during important operations to prevent duplicate submissions.
+
+---
+
+# 30. PROJECT STRUCTURE
+
+Use a clean scalable structure.
+
+Example:
+
+src/
+├── components/
+├── pages/
+├── layouts/
+├── hooks/
+├── services/
+├── lib/
+├── types/
+├── utils/
+├── contexts/
+└── routes/
+
+Backend:
+
+server/
+├── controllers/
+├── routes/
+├── middleware/
+├── services/
+├── utils/
+├── types/
+└── config/
+
+Supabase:
+
+supabase/
+├── migrations/
+├── functions/
+└── seed/
+
+---
+
+# 31. ENVIRONMENT VARIABLES
+
+Create:
+
+.env.example
+
+Example:
+
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+
+If backend requires:
+
+SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+
+Never commit `.env`.
+
+Add `.env` to `.gitignore`.
+
+---
+
+# 32. SUPABASE SETUP
+
+Prepare the project so I can connect it to Supabase.
+
+Create:
+
+- Database schema
+- SQL migration files
+- RLS policies
+- Required functions
+- Seed data
+- Authentication integration
+
+Provide a clear setup guide explaining:
+
+1. Create Supabase project
+2. Get Supabase URL
+3. Get anonymous/public key
+4. Add environment variables
+5. Run database migration
+6. Enable authentication
+7. Create admin user
+8. Assign admin role
+9. Start application
+
+---
+
+# 33. GITHUB READINESS
+
+Prepare the entire project for GitHub.
+
+Create:
+
+.gitignore
+
+README.md
+
+.env.example
+
+Proper project structure
+
+Meaningful commit-ready code
+
+The README must explain:
+
+- Project overview
+- Features
+- Technology stack
+- Installation
+- Environment variables
+- Supabase setup
+- Database setup
+- Running locally
+- Building for production
+- Deployment
+- Admin setup
+- API documentation
+- Future improvements
+
+IMPORTANT:
+
+Never include real:
+
+- API keys
+- Passwords
+- Supabase service role keys
+- Access tokens
+- Secrets
+
+in GitHub.
+
+---
+
+# 34. GITHUB PUSH INSTRUCTIONS
+
+After development is complete, provide exact commands:
+
+git init
+
+git add .
+
+git commit -m "Initial commit"
+
+git branch -M main
+
+git remote add origin YOUR_GITHUB_REPOSITORY_URL
+
+git push -u origin main
+
+Do not execute GitHub operations unless I explicitly authorize them and the environment supports it.
+
+---
+
+# 35. TESTING
+
+Create basic tests for important functionality.
+
+At minimum test:
+
+### Authentication
+
+- Registration
+- Login
+- Logout
+
+### Token
+
+- Generate token
+- Prevent duplicate active token
+- Cancel token
+- Token numbering
+- Concurrent token generation
+
+### Queue
+
+- Queue position
+- Call next token
+- Complete token
+- Skip token
+
+### Authorization
+
+- Normal user cannot access admin functionality
+- Admin can access admin dashboard
+
+---
+
+# 36. DEMO DATA
+
+Create safe sample data for development.
+
+Example services:
+
+1. General Consultation
+2. Billing
+3. Customer Support
+4. Document Verification
+
+Create sample users only if appropriate.
+
+Do not hardcode real personal information.
+
+---
+
+# 37. PERFORMANCE
+
+Optimize the application.
+
+Use:
+
+- Lazy loading where appropriate
+- Efficient database queries
+- Proper indexes
+- Pagination
+- Debouncing where appropriate
+- Cached/static data where useful
+- Efficient Supabase subscriptions
+
+Avoid unnecessary API calls.
+
+---
+
+# 38. ACCESSIBILITY
+
+Implement basic accessibility:
+
+- Semantic HTML
+- Keyboard navigation
+- Labels for inputs
+- Accessible buttons
+- Sufficient contrast
+- ARIA attributes where necessary
+- Clear error messages
+
+---
+
+# 39. MOBILE EXPERIENCE
+
+The application must work properly on mobile.
+
+Mobile users should be able to:
+
+1. Login
+2. Select service
+3. Generate token
+4. View token
+5. Track queue
+6. Cancel token
+
+without horizontal scrolling.
+
+---
+
+# 40. DEVELOPMENT WORKFLOW
+
+Build the application in stages.
+
+### Phase 1
+
+Project setup
+
+### Phase 2
+
+UI/UX
+
+### Phase 3
+
+Supabase authentication
+
+### Phase 4
+
+Database schema
+
+### Phase 5
+
+Token generation
+
+### Phase 6
+
+Queue management
+
+### Phase 7
+
+Admin dashboard
+
+### Phase 8
+
+Real-time updates
+
+### Phase 9
+
+Security and RLS
+
+### Phase 10
+
+Testing
+
+### Phase 11
+
+Production cleanup
+
+### Phase 12
+
+GitHub preparation
+
+---
+
+# 41. IMPORTANT AI CODING RULE
+
+Do not generate the entire application as one giant unstructured file.
+
+Keep the code modular.
+
+Before implementing each major feature:
+
+1. Analyze the existing project.
+2. Determine the required files.
+3. Implement the feature.
+4. Check for errors.
+5. Fix errors.
+6. Continue to the next feature.
+
+Do not overwrite working functionality unnecessarily.
+
+---
+
+# 42. FINAL QUALITY CHECK
+
+Before declaring the project complete, verify:
+
+[ ] Registration works
+
+[ ] Login works
+
+[ ] Logout works
+
+[ ] Protected routes work
+
+[ ] User profile works
+
+[ ] Services load from database
+
+[ ] Token generation works
+
+[ ] Duplicate active tokens are prevented
+
+[ ] Token numbers are unique
+
+[ ] Queue position updates
+
+[ ] Estimated waiting time works
+
+[ ] Token cancellation works
+
+[ ] Token history works
+
+[ ] Admin dashboard works
+
+[ ] Admin can call next token
+
+[ ] Admin can complete token
+
+[ ] Admin can skip token
+
+[ ] Admin can manage services
+
+[ ] Supabase RLS is enabled
+
+[ ] Real-time updates work
+
+[ ] Environment variables are used
+
+[ ] No secrets are committed
+
+[ ] `.gitignore` exists
+
+[ ] `.env.example` exists
+
+[ ] README exists
+
+[ ] Application is responsive
+
+[ ] Application builds successfully
+
+[ ] No major console errors
+
+[ ] No obvious security vulnerabilities
+
+[ ] Project is ready to push to GitHub
+
+---
+
+# 43. FINAL OUTPUT REQUIRED FROM YOU
+
+When development is complete, provide me with:
+
+1. Project architecture
+2. Technologies used
+3. Database schema
+4. Supabase setup instructions
+5. Environment variables required
+6. Admin account setup instructions
+7. Local development commands
+8. Testing instructions
+9. GitHub push commands
+10. Deployment instructions
+11. List of completed features
+12. Known limitations/future improvements
+
+IMPORTANT:
+
+Do not merely describe the application.
+
+Actually build the working application.
+
+If something is unavailable in the development environment, implement everything possible and clearly tell me what manual configuration remains.
+
+Start by inspecting the current project/environment and then begin implementation.
